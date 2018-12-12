@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+	<head>
+	
+		<style>
+			#div1:hover {
+				cursor: pointer;
+			}
+		</style>
+		<meta charset="UTF-8">
+		<title>Test page</title>
+	</head>
+	<body>
+		
+
+		<button onclick="btnClicked()">Click me</button>
+
+		<script type="text/javascript">
+		function btnClicked() {
+				console.log('Button clicked on the second page');
+			}
+		window.addEventListener('load', onApplicationStart);
+		console.info('Main loaded at: ', new Date().getTime());
+		
+		function onApplicationStart(event) {
+			console.info('page loaded at: ', new Date().getTime());
+			console.info(event);
+			
+			var div = document.createElement('div');
+			div.append('Acesta este un div');
+			div.addEventListener('click', function(event) {
+				console.log(event);
+			});
+			
+			div.setAttribute('id', 'div1');
+			div.style.backgroundColor = 'blue';
+			div.setAttribute('onmouseenter', 'onMouseEnter()');
+			div.setAttribute('onmouseleave', 'onMouseLeave()');
+			document.body.appendChild(div);
+		}
+		
+		function onMouseEnter() {
+			var div = document.getElementById('div1');
+			div.style.cursor = 'pointer';
+			div.style.backgroundColor = 'green';
+			div.style.opacity = 0.5
+		}
+		function onMouseLeave() {
+			var div = document.getElementById('div1');
+			div.style.cursor = 'auto';
+			div.style.backgroundColor = 'blue';
+			div.style.opacity = 1
+		}
+		
+		setTimeout(function () {
+			console.log('after 1 sec');
+			
+		}, 1000);
+		
+		for (var i = 0; i < 3000; i++) {
+			console.log(i)
+		}
+		
+		</script>
+	</body>
+</html>
