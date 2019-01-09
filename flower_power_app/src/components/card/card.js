@@ -3,11 +3,13 @@ import PropTypes from 'prop-types';
 import './card.css';
 
 function Card(props) {
-    console.log('Card', props);
     return (
         <div className="content-card">
             <h1>{props.name}</h1>
-            <button onClick={() => props.handleClick(props.name)}>Click name</button>
+            <span>{props.description}</span>
+            <img className="card-product-image" src={props.photoUrl} alt={props.name}/>
+            <h5>Price {props.unitPrice} EUR</h5>
+            <button className="btn add-to-cart">Add to cart</button>
           </div>
     )
 }

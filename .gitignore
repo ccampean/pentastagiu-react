@@ -1,5 +1,6 @@
 flower_power_app/node_modules
 react-app/node_modules
+flower_power_app/Server/node_modules
 /build
 /.vscode
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
