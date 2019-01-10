@@ -49,7 +49,7 @@ router.get(
   async (request, response) => {
     console.log("Response function : OK");
     try {
-      const product = request.products.find(el => el.id === request.params.id);
+      const product = request.products.find(el => el.id == request.params.id);
 
       if (product) {
         return response.send(product);

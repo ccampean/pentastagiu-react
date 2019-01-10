@@ -3,14 +3,13 @@ import PropTypes from 'prop-types';
 import Card from '../card/card';
 import './content.css';
 
-const callback = function(item){
-    return <Card key={item.id} {...item}/>
-}
 class Content extends Component {
     render() {
         return(
           <div className="content">
-                  {this.props.allData.map(callback, this)}
+                  {this.props.allData.map(function(item){
+                    return <Card key={item.id} {...item} handleClick={this.props.handleClick}/>
+                }, this)}
           </div>
         )
     }
