@@ -3,7 +3,6 @@ import Header from './components/header/header';
 import Content from './components/content/content';
 import EditCard from './components/editCard/editCard';
 import './App.css';
-import { connect } from "react-redux";
 
 class App extends Component {
   constructor(props){
@@ -76,13 +75,4 @@ class App extends Component {
   }
 }
 
-const mapStateToProps = (state) => state;
-  
-const mapDispatchToProps = ({
-    
-  });
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(App);
+export default App;
