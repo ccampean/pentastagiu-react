@@ -4,6 +4,8 @@ import Content from './components/content/content';
 import EditCard from './components/editCard/editCard';
 import './App.css';
 import { connect } from "react-redux";
+import { getProducts } from './Redux/Actions/products';
+import { startEditProduct, finishEditProduct } from './Redux/Actions/ui';
 
 class App extends Component {
   constructor(props){
@@ -13,7 +15,6 @@ class App extends Component {
     this.onSave = this.onSave.bind(this);
     this.state = {
       name: 'Bogdan',
-      allData: [],
       title: 'Super Bogdan',
       setEditMode: false,
       dataById: {}
@@ -21,24 +22,13 @@ class App extends Component {
   }
 
   componentDidMount = async () => {
-    const response = await fetch('/products');
-    const data = await response.json();
-    this.setState({
-      allData: data
-    });
+    this.props._getAllProducts();
   }
   componentDidUpdate(){
     console.log(this.state.setEditMode)
   }
   handleClick(id) {
-    this.setState((prevState) => {
-      let data = prevState.allData.find((item) => item.id === id);
-      return {
-        dataById: data || {},
-        setEditMode: true,
-      }
-    }
-    );
+    this.props._startEditProduct(id);
   }
   onNameChange(event){
     const name = event.target.name;
@@ -53,7 +43,7 @@ class App extends Component {
   }
 
   onSave() {
-    this.setState({setEditMode: false});
+    this.props._finishEditProduct();
   }
   
   render() {
@@ -61,12 +51,15 @@ class App extends Component {
       <div className="App">
       <Header />
       {
-        this.state.setEditMode ? 
+        this.props.ui.productEdit ? 
           <EditCard {...this.state.dataById} onNameChange={this.onNameChange} onSave={this.onSave}/> : 
+          this.props.ui.showSpinner ? 
+            <div className="loading-spinner"><div></div><div></div><div></div><div></div></div>
+          : 
           <Content 
             name={this.state.name} 
             handleClick={this.handleClick} 
-            allData={this.state.allData} 
+            allData={this.props.products} 
             title={this.state.title}
             handleChangeTitle={()=> {}}
           />
@@ -76,11 +69,17 @@ class App extends Component {
   }
 }
 
-const mapStateToProps = (state) => state;
+const mapStateToProps = (state) => ({
+  products: state.products,
+  ui: state.ui
+});
   
-const mapDispatchToProps = ({
-    
+const mapDispatchToProps = (dispatch) => ({
+    _getAllProducts: () => dispatch(getProducts()),
+    _startEditProduct: (id) => dispatch(startEditProduct(id)),
+    _finishEditProduct: () => dispatch(finishEditProduct())
   });
+
 
 export default connect(
   mapStateToProps,
