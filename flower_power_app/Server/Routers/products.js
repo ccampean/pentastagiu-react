@@ -109,7 +109,7 @@ router.delete("/:id", prepareData, async (request, response) => {
   try {
     const idToDelete = request.params.id;
 
-    const productToDelete = request.products.find(p => p.id === idToDelete);
+    const productToDelete = request.products.find(p => p.id == idToDelete);
     if (!productToDelete) {
       return response.send({ error: "No product found" });
     }

@@ -8,14 +8,14 @@ class EditCard extends PureComponent {
       <div className="content-card modal">
         <label>Name</label>
         <input
-          value={this.props.name}
+          value={this.props.product.name}
           name="name"
           type="text"
           onChange={this.props.onNameChange}
         />
         <label>Description</label>
         <input
-          value={this.props.description}
+          value={this.props.product.description}
           name="description"
           type="text"
           onChange={this.props.onNameChange}

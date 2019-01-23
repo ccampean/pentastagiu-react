@@ -7,9 +7,8 @@ class Content extends Component {
     render() {
         return(
           <div className="content">
-                  {this.props.allData.map(function(item){
-                    return <Card key={item.id} {...item} handleClick={this.props.handleClick}/>
-                }, this)}
+              {this.props.allData.map(item =>
+                      <Card key={item.id} {...item} handleClick={this.props.handleClick} product={this.props.product}/>)}
           </div>
         )
     }
@@ -19,5 +18,7 @@ Content.propTypes = {
     handleClick: PropTypes.func,
     handleChangeTitle: PropTypes.func,
     title: PropTypes.string,
+    allData: PropTypes.any,
+    product: PropTypes.any,
 }
 export default Content;
