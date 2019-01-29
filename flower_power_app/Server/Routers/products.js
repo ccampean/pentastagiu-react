@@ -92,7 +92,7 @@ router.put("/", prepareData, async (request, response) => {
     }
 
     const modifiedProducts = request.products.map(p => {
-      return p.id === params.id ? params : p;
+      return p.id === +params.id ? params : p;
     });
     await writeFileAsync(filePath, JSON.stringify(modifiedProducts));
 
@@ -109,11 +109,11 @@ router.delete("/:id", prepareData, async (request, response) => {
   try {
     const idToDelete = request.params.id;
 
-    const productToDelete = request.products.find(p => p.id == idToDelete);
-    if (!productToDelete) {
+    const index = request.products.findIndex(p => p.id === +idToDelete);
+    if (index === -1) {
       return response.send({ error: "No product found" });
     }
-    request.products.remove(productToDelete);
+    request.products.splice(index, 1);
 
     await writeFileAsync(filePath, JSON.stringify(request.products));
 

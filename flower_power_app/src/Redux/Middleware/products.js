@@ -87,7 +87,7 @@ export const saveProductById= ({ dispatch, getState }) => next => action => {
       apiRequest(
         "/products",
         "PUT",
-       {product: state.products.product},
+       { body: { product: state.products.product } },
         FETCH_PRODUCT_SAVE_EDIT_SUCCESS,
         FETCH_PRODUCTS_ERROR
       )
