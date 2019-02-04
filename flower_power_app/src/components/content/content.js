@@ -8,7 +8,7 @@ class Content extends Component {
         return(
           <div className="content">
               {this.props.allData.map(item =>
-                      <Card key={item.id} {...item} handleClick={this.props.handleClick} product={this.props.product}/>)}
+                      <Card key={item.id} {...item} deleteProduct={this.props.deleteProduct} handleClick={this.props.handleClick} product={this.props.product}/>)}
           </div>
         )
     }
@@ -20,5 +20,6 @@ Content.propTypes = {
     title: PropTypes.string,
     allData: PropTypes.any,
     product: PropTypes.any,
+    deleteProduct: PropTypes.func,
 }
 export default Content;

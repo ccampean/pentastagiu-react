@@ -1,4 +1,4 @@
-import { UPDATE_PRODUCTS, GET_PRODUCT_BY_ID, RESET_PRODUCT, SET_NAME_PRODUCT } from "../Actions/products";
+import { UPDATE_PRODUCTS, GET_PRODUCT_BY_ID, RESET_PRODUCT, SET_NAME_PRODUCT, SET_NAME_ADD_PRODUCT, SET_NAME_DESCRIPTION } from "../Actions/products";
 
 const initialState = {
     products: [],
@@ -13,6 +13,10 @@ export function productsReducer(state = initialState, action) {
             return {...state, product: action.payload};
         case SET_NAME_PRODUCT:
             return {...state, product: {...state.product, name: action.payload}};
+        case SET_NAME_ADD_PRODUCT:
+            return {...state, product: {...state.product, name: action.payload}};
+        case SET_NAME_DESCRIPTION:
+            return {...state, product: {...state.product, description: action.payload}};
         case RESET_PRODUCT:
             return {...state, product: {}};
         default:
