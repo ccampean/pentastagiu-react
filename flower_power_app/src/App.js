@@ -7,6 +7,12 @@ import './App.css';
 import { connect } from "react-redux";
 import { getProducts, setSaveProduct, setNameProduct, deleteProduct, setNameAddProduct, saveProduct, setDescriptionAddProduct } from './Redux/Actions/products';
 import { startEditProduct, finishEditProduct } from './Redux/Actions/ui';
+import { Route, Switch } from 'react-router-dom';
+
+
+const NotFound = (props) => (
+  <h2>Page not found</h2>
+);
 
 class App extends Component {
   constructor(props){
@@ -20,22 +26,17 @@ class App extends Component {
     this.saveCard=this.saveCard.bind(this);
     this.descriptionChange=this.descriptionChange.bind(this);
     this.state = {
-      name: 'Bogdan',
-      title: 'Super Bogdan',
-      setEditMode: false,
-      dataById: {},
-      openAddCard: false,
+      dataById: {}
     }
   }
 
   componentDidMount(){
     this.props._getAllProducts();
   }
-  componentDidUpdate(){
-    console.log(this.state.setEditMode)
-  }
+
   handleClick(id) {
     this.props._startEditProduct(id);
+    this.props.history.push(`/product/${id}`);
   }
   onNameChange(event){
     const name = event.target.value;
@@ -50,7 +51,9 @@ class App extends Component {
     this.props._setSaveProduct();
   }
   addCard(){
-    this.setState({openAddCard: true});
+    
+    this.props.history.push('/add-product');
+    //this.setState({openAddCard: true});
   }
   nameChange(event) {
   console.log(event.target.value)
@@ -69,23 +72,28 @@ class App extends Component {
       <div className="App">
       <Header />
         <button className="button-add" onClick={this.addCard}>AddCard</button>
-        {this.state.openAddCard ? <AddCard nameChange={this.nameChange} saveCard={this.saveCard} descriptionChange={this.descriptionChange}/> : null}
-      {
-        this.props.ui.productEdit ? 
-          <EditCard {...this.state.dataById} onNameChange={this.onNameChange} onSave={this.onSave} product={this.props.product}/> : 
-          this.props.ui.showSpinner ? 
-            <div className="loading-spinner"><div></div><div></div><div></div><div></div></div>
-          : 
-          <Content 
-            name={this.state.name} 
-            handleClick={this.handleClick} 
-            allData={this.props.products}
-            product={this.props.product} 
-            title={this.state.title}
-            deleteProduct={this.deleteProduct}
-            handleChangeTitle={()=> {}}
+        
+
+        <Switch>
+          
+          <Route path="/add-product" component={AddCard}/>
+
+          <Route path="/product/:productId" component={(props) => (
+            <EditCard {...props} {...this.state.dataById} onNameChange={this.onNameChange} onSave={this.onSave} product={this.props.product}/>
+          )}/>
+          <Route exact path="/" component={() =>(
+            <Content 
+              handleClick={this.handleClick} 
+              allData={this.props.products}
+              product={this.props.product} 
+              deleteProduct={this.deleteProduct}
+              handleChangeTitle={()=> {}}
+          />)}
           />
-      }
+          <Route path="*" component={NotFound}/>
+        </Switch>
+        
+      
       </div>
     );
   }
@@ -105,7 +113,6 @@ const mapDispatchToProps = (dispatch) => ({
     _setNameProduct: (name) => dispatch(setNameProduct(name)),
   _deleteProduct:(id) => dispatch(deleteProduct(id)),
   _setNameAddProduct:(id) => dispatch(setNameAddProduct(id)),
-  _saveProduct:()=> dispatch(saveProduct()),
   _setDescriptionAddProduct:(description) => dispatch(setDescriptionAddProduct(description))
   });
 

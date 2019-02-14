@@ -49,8 +49,9 @@ export const setNameAddProduct=(name) =>({
     type: SET_NAME_ADD_PRODUCT,
     payload: name,
 })
-export const saveProduct=() =>({
-    type: SAVE_PRODUCT
+export const saveProduct=(product) =>({
+    type: SAVE_PRODUCT,
+    payload: product
 })
 export const setDescriptionAddProduct=(description) =>({
     type: SET_NAME_DESCRIPTION,

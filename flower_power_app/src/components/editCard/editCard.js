@@ -4,6 +4,10 @@ import "./editCard.css";
 
 class EditCard extends PureComponent {
   render() {
+    const {match} = this.props;
+    console.log(match.params.productId);
+    
+
     return (
       <div className="content-card modal">
         <label>Name</label>

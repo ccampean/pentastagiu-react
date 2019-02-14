@@ -14,10 +14,8 @@ class Content extends Component {
     }
 }
 Content.propTypes = {
-    name: PropTypes.string.isRequired,
     handleClick: PropTypes.func,
     handleChangeTitle: PropTypes.func,
-    title: PropTypes.string,
     allData: PropTypes.any,
     product: PropTypes.any,
     deleteProduct: PropTypes.func,

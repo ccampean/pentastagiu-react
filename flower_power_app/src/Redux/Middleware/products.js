@@ -104,17 +104,17 @@ export const processSaveEditProductCollection = ({dispatch}) => next => action =
     dispatch(resetProduct());
   }
 }
-export const saveProduct= ({ dispatch, getState }) => next => action => {
+export const saveProduct= ({ dispatch }) => next => action => {
   next(action);
 
   if (action.type === SAVE_PRODUCT) {
-    const state = getState();
+    
     dispatch(showLoader());
     dispatch(
       apiRequest(
         "/products",
         "POST",
-        { body: { product: state.products.product } },
+        { body: { product: action.payload } },
         GET_PRODUCTS,
         FETCH_PRODUCTS_ERROR
       )
