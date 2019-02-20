@@ -60,8 +60,8 @@ class AddCard extends PureComponent {
 
 const mapStateToProps = (state) => state;
 
-const mapDispatchToProps = (dispatch) => ({
-  _saveProduct: (product) => dispatch(saveProduct(product)) 
+const mapDispatchToProps = (dispatch, ownProps) => ({
+  _saveProduct: (product) => dispatch(saveProduct(product, ownProps.history)) 
 })
 
 export default connect(

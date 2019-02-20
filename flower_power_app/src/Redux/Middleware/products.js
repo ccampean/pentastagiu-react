@@ -5,13 +5,21 @@ import {
   FETCH_PRODUCTS_ERROR,
   SAVE_PRODUCT,
   updateProducts,
-  getProductById, DELETE_PRODUCT,
+  getProductById,
+  DELETE_PRODUCT,
   SET_SAVE_EDIT_PRODUCT,
   FETCH_PRODUCT_SAVE_EDIT_SUCCESS,
   resetProduct,
+  SAVE_PRODUCT_SUCCESS,
+  getProducts,
 } from "../Actions/products";
 import { apiRequest } from "../Actions/api";
-import {showLoader, hideLoader, PRODUCT_EDIT_STARTED, finishEditProduct} from "../Actions/ui";
+import {
+  showLoader,
+  hideLoader,
+  PRODUCT_EDIT_STARTED,
+  finishEditProduct
+} from "../Actions/ui";
 
 export const getProductsFlow = ({ dispatch }) => next => action => {
   next(action);
@@ -45,7 +53,7 @@ export const deleteProductById = ({ dispatch }) => next => action => {
     dispatch(showLoader());
   }
 };
-export const productById= ({ dispatch }) => next => action => {
+export const productById = ({ dispatch }) => next => action => {
   next(action);
 
   if (action.type === PRODUCT_EDIT_STARTED) {
@@ -61,24 +69,24 @@ export const productById= ({ dispatch }) => next => action => {
     dispatch(showLoader());
   }
 };
-export const processProductsCollection = ({dispatch}) => next => action => {
+export const processProductsCollection = ({ dispatch }) => next => action => {
   next(action);
 
-  if(action.type === FETCH_PRODUCTS_SUCCESS) {
+  if (action.type === FETCH_PRODUCTS_SUCCESS) {
     dispatch(updateProducts(action.payload));
     dispatch(hideLoader());
   }
-}
-export const processProductCollection = ({dispatch}) => next => action => {
+};
+export const processProductCollection = ({ dispatch }) => next => action => {
   next(action);
 
-  if(action.type === FETCH_PRODUCT_SUCCESS) {
+  if (action.type === FETCH_PRODUCT_SUCCESS) {
     dispatch(getProductById(action.payload));
     dispatch(hideLoader());
   }
-}
+};
 
-export const saveProductById= ({ dispatch, getState }) => next => action => {
+export const saveProductById = ({ dispatch, getState }) => next => action => {
   next(action);
 
   if (action.type === SET_SAVE_EDIT_PRODUCT) {
@@ -88,46 +96,59 @@ export const saveProductById= ({ dispatch, getState }) => next => action => {
       apiRequest(
         "/products",
         "PUT",
-       { body: { product: state.products.product } },
+        { body: { product: state.products.product } },
         FETCH_PRODUCT_SAVE_EDIT_SUCCESS,
         FETCH_PRODUCTS_ERROR
       )
     );
   }
 };
-export const processSaveEditProductCollection = ({dispatch}) => next => action => {
+export const processSaveEditProductCollection = ({
+  dispatch
+}) => next => action => {
   next(action);
 
-  if(action.type === FETCH_PRODUCT_SAVE_EDIT_SUCCESS) {
+  if (action.type === FETCH_PRODUCT_SAVE_EDIT_SUCCESS) {
     dispatch(hideLoader());
     dispatch(finishEditProduct());
     dispatch(resetProduct());
   }
-}
-export const saveProduct= ({ dispatch }) => next => action => {
+};
+export const saveProduct = ({ dispatch }) => next => action => {
   next(action);
 
   if (action.type === SAVE_PRODUCT) {
-    
     dispatch(showLoader());
     dispatch(
       apiRequest(
         "/products",
         "POST",
         { body: { product: action.payload } },
-        GET_PRODUCTS,
-        FETCH_PRODUCTS_ERROR
+        SAVE_PRODUCT_SUCCESS,
+        FETCH_PRODUCTS_ERROR,
+        action.history
       )
     );
   }
 };
+
+export const saveProductSuccess = ({ dispatch }) => next => action => {
+  next(action);
+
+  if (action.type === SAVE_PRODUCT_SUCCESS) {
+      action.extra && action.extra.push('/');
+      dispatch(getProducts());
+  }
+};
+
 export const productsMdl = [
-    getProductsFlow,
-    processProductsCollection,
+  getProductsFlow,
+  processProductsCollection,
   productById,
   processProductCollection,
   saveProductById,
   processSaveEditProductCollection,
   deleteProductById,
   saveProduct,
+  saveProductSuccess
 ];
